@@ -18,3 +18,28 @@ export async function findQuestionById (questionId: number) {
     })
 
 }
+
+export async function findAllQuestions () {
+
+    return prisma.questions.findMany();
+
+}
+
+
+export async function findQuestionByIdWithAnswers (questionId: number) {
+
+    return prisma.questions.findUnique({
+        where: {
+            id: questionId
+        },
+        include: {
+            answers: {
+                select: {
+                    answeredBy: true,
+                    answer: true
+                }
+            }
+        }
+    });
+
+}
